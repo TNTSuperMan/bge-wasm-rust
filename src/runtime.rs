@@ -12,7 +12,7 @@ pub struct Runtime {
 impl Runtime {
     #[wasm_bindgen(constructor)]
     pub fn new(rom: Vec<u8>) -> Runtime{
-        return Runtime {
+        Runtime {
             rom: rom,
             ram: [0; 0x6000],
             stack: Vec::new(),
@@ -22,9 +22,9 @@ impl Runtime {
     }
     pub fn load(&self, addr: u16) -> u8{
         if addr < 0xa000 {
-            return self.rom[addr as usize]
+            return self.rom[addr as usize];
         } else {
-            return self.ram[(addr - 0xa000) as usize]
+            return self.ram[(addr - 0xa000) as usize];
         }
     }
     pub fn store(&mut self, addr: u16, val: u8){
