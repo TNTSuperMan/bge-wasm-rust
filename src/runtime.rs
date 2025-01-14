@@ -96,20 +96,12 @@ impl Runtime {
             0x0a => {
                 let v1 = self.pop();
                 let v2 = self.pop();
-                if v1 == v2 {
-                    self.push(1)
-                } else {
-                    self.push(0)
-                }
+                self.push((v1 > v2) as u8);
             },
             0x0b => {
                 let v1 = self.pop();
                 let v2 = self.pop();
-                if v1 > v2 {
-                    self.push(1)
-                } else {
-                    self.push(0)
-                }
+                self.push((v1 == v2) as u8);
             },
             0x0c => {
                 let addr = self.pop_addr();
