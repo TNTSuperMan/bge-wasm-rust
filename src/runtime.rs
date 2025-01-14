@@ -124,6 +124,7 @@ impl Runtime {
             }
             _ => {}
         }
+        self.pc += 1;
         return true;
     }
 }
