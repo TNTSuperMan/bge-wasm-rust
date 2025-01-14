@@ -47,46 +47,47 @@ impl Runtime {
     }
     fn emulate(&mut self) -> bool{
         match self.load(self.pc) {
-            0x00 => {
+            0x00 => {},
+            0x01 => {
                 self.pc += 1;
                 self.push(self.load(self.pc));
             },
-            0x01 => {
+            0x02 => {
                 self.pop();
             },
-            0x02 => {
-                self.stack.clear();
-            },
             0x03 => {
-                let v1 = self.pop();
-                let v2 = self.pop();
-                self.push(v1 + v2)
+                self.stack.clear();
             },
             0x04 => {
                 let v1 = self.pop();
                 let v2 = self.pop();
-                self.push(v1 - v2)
+                self.push(v1 + v2)
             },
             0x05 => {
                 let v1 = self.pop();
                 let v2 = self.pop();
-                self.push(v1 * v2)
+                self.push(v1 - v2)
             },
             0x06 => {
                 let v1 = self.pop();
                 let v2 = self.pop();
-                self.push(v1 / v2)
+                self.push(v1 * v2)
             },
             0x07 => {
                 let v1 = self.pop();
                 let v2 = self.pop();
-                self.push(v1 % v2)
+                self.push(v1 / v2)
             },
             0x08 => {
                 let v1 = self.pop();
                 let v2 = self.pop();
-                self.push(!(v1 & v2))
+                self.push(v1 % v2)
             },
+            0x09 => {
+                let v1 = self.pop();
+                let v2 = self.pop();
+                self.push(!(v1 & v2))
+            }
             _ => {}
         }
         return true;
