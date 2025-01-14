@@ -10,6 +10,6 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn main(rom: &[u8]) -> Runtime {
+pub fn main(rom: Vec<u8>) -> Runtime {
     return Runtime::new(rom);
 }

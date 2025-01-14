@@ -2,7 +2,7 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub struct Runtime {
-    rom: [u8; 0xa000],
+    rom: Vec<u8>,
     ram: [u8; 0x6000],
     stack: Vec<u8>,
     callstack: Vec<u16>,
@@ -11,13 +11,9 @@ pub struct Runtime {
 #[wasm_bindgen]
 impl Runtime {
     #[wasm_bindgen(constructor)]
-    pub fn new(rom: &[u8]) -> Runtime{
-        let mut arr_rom: [u8; 0xa000] = [0; 0xa000];
-        for (i, &item) in rom.iter().enumerate() {
-            arr_rom[i] = item;
-        }
+    pub fn new(rom: Vec<u8>) -> Runtime{
         return Runtime {
-            rom: arr_rom,
+            rom: rom,
             ram: [0; 0x6000],
             stack: Vec::new(),
             callstack: Vec::new(),
