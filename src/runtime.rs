@@ -108,6 +108,9 @@ impl Runtime {
                 if self.pop() != 0 {
                     self.pc = addr;
                 }
+            },
+            0x0d => {
+                self.pc = self.pop_addr();
             }
             _ => {}
         }
