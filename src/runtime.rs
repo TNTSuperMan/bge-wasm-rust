@@ -10,18 +10,20 @@ pub struct Runtime {
     callstack: Vec<u16>,
     pc: u16,
 
+    do_subframe: bool,
     keystate: u8
 }
 #[wasm_bindgen]
 impl Runtime {
     #[wasm_bindgen(constructor)]
-    pub fn new(rom: Vec<u8>) -> Runtime{
+    pub fn new(rom: Vec<u8>, do_subframe: bool) -> Runtime{
         Runtime {
             memory: Memory::new(rom),
             stack: Vec::new(),
             callstack: Vec::new(),
             pc: 0,
 
+            do_subframe: do_subframe,
             keystate: 0
         }
     }
@@ -125,7 +127,7 @@ impl Runtime {
             _ => {}
         }
         self.pc += 1;
-        return true;
+        return !self.do_subframe || self.load(self.pc) != 0x12;
     }
 }
 
