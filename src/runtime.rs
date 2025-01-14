@@ -20,6 +20,9 @@ impl Runtime {
             pc: 0
         }
     }
+    pub fn emulate_frame(&mut self){
+        while self.emulate() {}
+    }
     pub fn load(&self, addr: u16) -> u8{
         if addr < 0xa000 {
             return self.rom[addr as usize];
@@ -37,6 +40,52 @@ impl Runtime {
     }
     fn pop(&mut self) -> u8{
         self.stack.pop().expect("stack underflow")
+    }
+    fn emulate(&mut self) -> bool{
+        match self.load(self.pc) {
+            0x00 => {
+                self.pc += 1;
+                self.push(self.load(self.pc));
+            },
+            0x01 => {
+                self.pop();
+            },
+            0x02 => {
+                self.stack.clear();
+            },
+            0x03 => {
+                let v1 = self.pop();
+                let v2 = self.pop();
+                self.push(v1 + v2)
+            },
+            0x04 => {
+                let v1 = self.pop();
+                let v2 = self.pop();
+                self.push(v1 - v2)
+            },
+            0x05 => {
+                let v1 = self.pop();
+                let v2 = self.pop();
+                self.push(v1 * v2)
+            },
+            0x06 => {
+                let v1 = self.pop();
+                let v2 = self.pop();
+                self.push(v1 / v2)
+            },
+            0x07 => {
+                let v1 = self.pop();
+                let v2 = self.pop();
+                self.push(v1 % v2)
+            },
+            0x08 => {
+                let v1 = self.pop();
+                let v2 = self.pop();
+                self.push(!(v1 & v2))
+            },
+            _ => {}
+        }
+        return true;
     }
 }
 
