@@ -8,7 +8,9 @@ pub struct Runtime {
     memory: Memory,
     stack: Vec<u8>,
     callstack: Vec<u16>,
-    pc: u16
+    pc: u16,
+
+    keystate: u8
 }
 #[wasm_bindgen]
 impl Runtime {
@@ -18,12 +20,16 @@ impl Runtime {
             memory: Memory::new(rom),
             stack: Vec::new(),
             callstack: Vec::new(),
-            pc: 0
+            pc: 0,
+
+            keystate: 0
         }
     }
     pub fn emulate_frame(&mut self){ while self.emulate() {} }
     pub fn load(&self, addr: u16) -> u8{ self.memory.load(addr) }
     pub fn store(&mut self, addr: u16, val: u8){ self.memory.store(addr, val) }
+    pub fn set_key_state(&mut self, state: u8){ self.keystate = state }
+
     fn push(&mut self, val: u8){ self.stack.push(val) }
     fn pop(&mut self) -> u8{ self.stack.pop().expect("stack underflow") }
     fn pop_addr(&mut self) -> u16{
@@ -113,6 +119,9 @@ impl Runtime {
                 let val = self.pop();
                 self.store(addr, val);
             },
+            0x12 => {
+                self.push(self.keystate);
+            }
             _ => {}
         }
         return true;
