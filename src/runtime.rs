@@ -119,6 +119,9 @@ impl Runtime {
                 self.callstack.push(self.pc);
                 self.pc = addr;
                 return true;
+            },
+            0x0f => {
+                self.pc = self.callstack.pop().expect("Callstack underflow");
             }
             _ => {}
         }
