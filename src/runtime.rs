@@ -107,16 +107,18 @@ impl Runtime {
                 let addr = self.pop_addr();
                 if self.pop() != 0 {
                     self.pc = addr;
+                    return true;
                 }
             },
             0x0d => {
                 self.pc = self.pop_addr();
+                return true;
             },
             0x0e => {
                 let addr = self.pop_addr();
                 self.callstack.push(self.pc);
                 self.pc = addr;
-                return false;
+                return true;
             }
             _ => {}
         }
