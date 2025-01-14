@@ -110,6 +110,12 @@ impl Runtime {
                 } else {
                     self.push(0)
                 }
+            },
+            0x0c => {
+                let addr = self.pop_addr();
+                if self.pop() != 0 {
+                    self.pc = addr;
+                }
             }
             _ => {}
         }
