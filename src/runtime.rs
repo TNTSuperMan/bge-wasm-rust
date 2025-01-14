@@ -131,7 +131,7 @@ impl Runtime {
                 let addr = self.pop_addr();
                 let val = self.pop();
                 self.store(addr, val);
-            }
+            },
             _ => {}
         }
         return true;
