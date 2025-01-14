@@ -32,5 +32,11 @@ impl Runtime {
             self.ram[(addr - 0xa000) as usize] = val;
         }
     }
+    fn push(&mut self, val: u8){
+        self.stack.push(val)
+    }
+    fn pop(&mut self) -> u8{
+        self.stack.pop().expect("stack underflow")
+    }
 }
 
