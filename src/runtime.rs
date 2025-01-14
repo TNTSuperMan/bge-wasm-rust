@@ -122,7 +122,11 @@ impl Runtime {
             },
             0x0f => {
                 self.pc = self.callstack.pop().expect("Callstack underflow");
-            }
+            },
+            0x10 => {
+                let addr = self.pop_addr();
+                self.push(self.load(addr))
+            },
             _ => {}
         }
         return true;
