@@ -25,7 +25,11 @@ impl Runtime {
     }
     pub fn load(&self, addr: u16) -> u8{
         if addr < 0xa000 {
-            return self.rom[addr as usize];
+            if (addr as usize) < self.rom.len() {
+                return self.rom[addr as usize];
+            } else {
+                return 0;
+            }
         } else {
             return self.ram[(addr - 0xa000) as usize];
         }
