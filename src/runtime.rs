@@ -127,6 +127,11 @@ impl Runtime {
                 let addr = self.pop_addr();
                 self.push(self.load(addr))
             },
+            0x11 => {
+                let addr = self.pop_addr();
+                let val = self.pop();
+                self.store(addr, val);
+            }
             _ => {}
         }
         return true;
