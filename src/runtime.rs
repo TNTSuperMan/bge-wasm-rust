@@ -111,6 +111,12 @@ impl Runtime {
             },
             0x0d => {
                 self.pc = self.pop_addr();
+            },
+            0x0e => {
+                let addr = self.pop_addr();
+                self.callstack.push(self.pc);
+                self.pc = addr;
+                return false;
             }
             _ => {}
         }
