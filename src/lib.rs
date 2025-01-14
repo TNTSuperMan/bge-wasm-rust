@@ -11,9 +11,5 @@ extern "C" {
 
 #[wasm_bindgen]
 pub fn main(rom: &[u8]) -> Runtime {
-    let mut arr_rom: [u8; 0xa000] = [0; 0xa000];
-    for (i, &item) in rom.iter().enumerate() {
-        arr_rom[i] = item;
-    }
-    return Runtime::new(arr_rom);
+    return Runtime::new(rom);
 }
