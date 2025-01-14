@@ -21,17 +21,11 @@ impl Runtime {
             pc: 0
         }
     }
-    pub fn emulate_frame(&mut self){
-        while self.emulate() {}
-    }
+    pub fn emulate_frame(&mut self){ while self.emulate() {} }
     pub fn load(&self, addr: u16) -> u8{ self.memory.load(addr) }
     pub fn store(&mut self, addr: u16, val: u8){ self.memory.store(addr, val) }
-    fn push(&mut self, val: u8){
-        self.stack.push(val)
-    }
-    fn pop(&mut self) -> u8{
-        self.stack.pop().expect("stack underflow")
-    }
+    fn push(&mut self, val: u8){ self.stack.push(val) }
+    fn pop(&mut self) -> u8{ self.stack.pop().expect("stack underflow") }
     fn pop_addr(&mut self) -> u16{
         let bottom = self.pop() as u16;
         let top = self.pop() as u16;
