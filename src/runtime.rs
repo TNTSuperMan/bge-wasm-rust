@@ -45,6 +45,11 @@ impl Runtime {
     fn pop(&mut self) -> u8{
         self.stack.pop().expect("stack underflow")
     }
+    fn pop_addr(&mut self) -> u16{
+        let bottom = self.pop() as u16;
+        let top = self.pop() as u16;
+        return bottom | (top << 8);
+    }
     fn emulate(&mut self) -> bool{
         match self.load(self.pc) {
             0x00 => {},
