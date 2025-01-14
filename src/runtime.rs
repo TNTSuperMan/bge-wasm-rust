@@ -20,5 +20,17 @@ impl Runtime {
             pc: 0
         }
     }
+    pub fn load(&self, addr: u16) -> u8{
+        if addr < 0xa000 {
+            return self.rom[addr as usize]
+        } else {
+            return self.ram[(addr - 0xa000) as usize]
+        }
+    }
+    pub fn store(&mut self, addr: u16, val: u8){
+        if addr >= 0xa000 {
+            self.ram[(addr - 0xa000) as usize] = val;
+        }
+    }
 }
 
