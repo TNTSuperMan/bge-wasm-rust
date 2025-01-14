@@ -87,6 +87,24 @@ impl Runtime {
                 let v1 = self.pop();
                 let v2 = self.pop();
                 self.push(!(v1 & v2))
+            },
+            0x0a => {
+                let v1 = self.pop();
+                let v2 = self.pop();
+                if v1 == v2 {
+                    self.push(1)
+                } else {
+                    self.push(0)
+                }
+            },
+            0x0b => {
+                let v1 = self.pop();
+                let v2 = self.pop();
+                if v1 > v2 {
+                    self.push(1)
+                } else {
+                    self.push(0)
+                }
             }
             _ => {}
         }
