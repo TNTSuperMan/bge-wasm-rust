@@ -54,7 +54,7 @@ impl Runtime {
         let top = self.pop() as u16;
         return bottom | (top << 8);
     }
-    fn clearIO(&mut self){
+    fn clear_io(&mut self){
         for i in 0x5000..0x6000 {
             self.memory.store(i, 0);
         }
@@ -172,7 +172,7 @@ impl Runtime {
                 let mode = self.pop();
                 match mode {
                     2 => {
-                        self.clearIO();
+                        self.clear_io();
                         for i in 0..self.savedata.len() {
                             if i > 0xFFF {
                                 break;
