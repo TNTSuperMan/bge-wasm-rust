@@ -180,6 +180,7 @@ impl Runtime {
                             self.memory.store((i + 0x5000) as u16, self.savedata[i]);
                         }
                     },
+                    4 => { self.clear_io(); }
                     _ => {}
                 }
             },
