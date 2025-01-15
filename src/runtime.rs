@@ -157,6 +157,9 @@ impl Runtime {
                 let id = self.pop();
                 self.framestate.push_sound(id);
             },
+            0x17 => {
+                self.framestate.stop_sound();
+            },
             _ => {}
         }
         self.pc += 1;
