@@ -157,6 +157,7 @@ impl Runtime {
             },
             0x13 => {
                 self.framestate.redraw();
+                return false;
             },
             0x14 => {
                 let c = self.pop();
