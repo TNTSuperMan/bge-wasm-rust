@@ -136,6 +136,9 @@ impl Runtime {
             0x12 => {
                 self.push(self.keystate);
             },
+            0x13 => {
+                self.framestate.redraw();
+            }
             _ => {}
         }
         self.pc += 1;
