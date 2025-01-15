@@ -1,3 +1,4 @@
+use image::bin2img;
 use wasm_bindgen::prelude::*;
 
 mod memory;
@@ -5,6 +6,8 @@ use memory::Memory;
 
 mod framestate;
 use framestate::FrameState;
+
+mod image;
 
 #[wasm_bindgen]
 pub struct Runtime {
@@ -171,6 +174,9 @@ impl Runtime {
             0x18 => {
                 let mode = self.pop();
                 match mode {
+                    0 => {
+                        self.framestate.set_img(bin2img(self.memory.get_io()));
+                    },
                     2 => {
                         self.clear_io();
                         for i in 0..self.savedata.len() {

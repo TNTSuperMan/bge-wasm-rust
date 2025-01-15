@@ -43,7 +43,9 @@ pub struct FrameState {
     rect: Vec<Rectangle>,
     graph:Vec<Graphic>,
     sound:Vec<u8>,
+    imgs: Vec<String>,
     _do_redraw: bool,
+    _do_updimg: bool,
     stopsound: bool
 }
 impl FrameState {
@@ -51,8 +53,10 @@ impl FrameState {
         FrameState {
             rect: Vec::new(),
             graph:Vec::new(),
+            imgs: Vec::new(),
             sound:Vec::new(),
             _do_redraw: false,
+            _do_updimg: false,
             stopsound: false
         }
     }
@@ -60,8 +64,10 @@ impl FrameState {
         FrameState {
             rect:  self.rect.as_slice().to_vec(),
             graph: self.graph.as_slice().to_vec(),
+            imgs:  self.imgs.as_slice().to_vec(),
             sound: self.sound.as_slice().to_vec(),
             _do_redraw: self._do_redraw,
+            _do_updimg: self._do_updimg,
             stopsound: self.stopsound
         }
     }
@@ -108,5 +114,9 @@ impl FrameState {
     }
     pub fn stop_sound(&mut self){
         self.stopsound = true;
+    }
+    pub fn set_img(&mut self, imgs: Vec<String>){
+        self._do_updimg = true;
+        self.imgs = imgs;
     }
 }
