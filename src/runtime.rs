@@ -152,7 +152,11 @@ impl Runtime {
                 let x = self.pop();
                 let id= self.pop();
                 self.framestate.push_graph(x, y, id);
-            }
+            },
+            0x16 => {
+                let id = self.pop();
+                self.framestate.push_sound(id);
+            },
             _ => {}
         }
         self.pc += 1;
