@@ -7,6 +7,11 @@ use memory::Memory;
 mod framestate;
 use framestate::FrameState;
 
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace=console)]
+    fn log(s: &str);
+}
 mod image;
 #[wasm_bindgen]
 pub struct Runtime {
@@ -15,7 +20,7 @@ pub struct Runtime {
     memory: Memory,
     stack: Vec<u8>,
     callstack: Vec<u16>,
-    pc: u16,
+    pub pc: u16,
 
     do_subframe: bool,
     keystate: u8,
@@ -84,43 +89,43 @@ impl Runtime {
                 self.stack.clear();
             },
             0x04 => {
-                let v1 = self.pop();
                 let v2 = self.pop();
+                let v1 = self.pop();
                 self.push(v1 + v2)
             },
             0x05 => {
-                let v1 = self.pop();
                 let v2 = self.pop();
+                let v1 = self.pop();
                 self.push(v1 - v2)
             },
             0x06 => {
-                let v1 = self.pop();
                 let v2 = self.pop();
+                let v1 = self.pop();
                 self.push(v1 * v2)
             },
             0x07 => {
-                let v1 = self.pop();
                 let v2 = self.pop();
+                let v1 = self.pop();
                 self.push(v1 / v2)
             },
             0x08 => {
-                let v1 = self.pop();
                 let v2 = self.pop();
+                let v1 = self.pop();
                 self.push(v1 % v2)
             },
             0x09 => {
-                let v1 = self.pop();
                 let v2 = self.pop();
+                let v1 = self.pop();
                 self.push(!(v1 & v2))
             },
             0x0a => {
-                let v1 = self.pop();
                 let v2 = self.pop();
+                let v1 = self.pop();
                 self.push((v1 > v2) as u8);
             },
             0x0b => {
-                let v1 = self.pop();
                 let v2 = self.pop();
+                let v1 = self.pop();
                 self.push((v1 == v2) as u8);
             },
             0x0c => {
