@@ -3,6 +3,9 @@ use wasm_bindgen::prelude::*;
 mod memory;
 use memory::Memory;
 
+mod framestate;
+use framestate::FrameState;
+
 #[wasm_bindgen]
 pub struct Runtime {
     memory: Memory,
@@ -11,7 +14,8 @@ pub struct Runtime {
     pc: u16,
 
     do_subframe: bool,
-    keystate: u8
+    keystate: u8,
+    framestate: FrameState
 }
 #[wasm_bindgen]
 impl Runtime {
@@ -24,13 +28,21 @@ impl Runtime {
             pc: 0,
 
             do_subframe: do_subframe,
-            keystate: 0
+            keystate: 0,
+            framestate: FrameState::new()
         }
     }
     pub fn emulate_frame(&mut self){ while self.emulate() {} }
     pub fn load(&self, addr: u16) -> u8{ self.memory.load(addr) }
     pub fn store(&mut self, addr: u16, val: u8){ self.memory.store(addr, val) }
     pub fn set_key_state(&mut self, state: u8){ self.keystate = state }
+    pub fn frame_state(&mut self) -> FrameState{
+        if self.framestate.do_redraw() {
+            return self.framestate.pop();
+        } else {
+            return self.framestate.clone();
+        }
+    }
 
     fn push(&mut self, val: u8){ self.stack.push(val) }
     fn pop(&mut self) -> u8{ self.stack.pop().expect("stack underflow") }
@@ -123,7 +135,7 @@ impl Runtime {
             },
             0x12 => {
                 self.push(self.keystate);
-            }
+            },
             _ => {}
         }
         self.pc += 1;
