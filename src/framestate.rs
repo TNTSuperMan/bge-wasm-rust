@@ -2,13 +2,13 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub struct Rectangle {
-    x: u8,
-    y: u8,
-    w: u8,
-    h: u8,
-    r: u8,
-    g: u8,
-    b: u8
+    pub x: u8,
+    pub y: u8,
+    pub w: u8,
+    pub h: u8,
+    pub r: u8,
+    pub g: u8,
+    pub b: u8
 }
 impl Clone for Rectangle {
     fn clone(&self) -> Rectangle {
@@ -25,9 +25,9 @@ impl Clone for Rectangle {
 }
 #[wasm_bindgen]
 pub struct Graphic {
-    x: u8,
-    y: u8,
-    id:u8
+    pub x: u8,
+    pub y: u8,
+    pub id:u8
 }
 impl Clone for Graphic {
     fn clone(&self) -> Graphic {
@@ -44,9 +44,9 @@ pub struct FrameState {
     graph:Vec<Graphic>,
     sound:Vec<u8>,
     imgs: Vec<String>,
-    _do_redraw: bool,
-    _do_updimg: bool,
-    stopsound: bool
+    pub _do_redraw: bool,
+    pub _do_updimg: bool,
+    pub stopsound: bool
 }
 impl FrameState {
     pub fn new() -> FrameState{
@@ -119,4 +119,7 @@ impl FrameState {
         self._do_updimg = true;
         self.imgs = imgs;
     }
+    pub fn get_rect(&self) -> Vec<Rectangle>{ self.rect .as_slice().to_vec() }
+    pub fn get_graph(&self)-> Vec<Graphic>  { self.graph.as_slice().to_vec() }
+    pub fn get_sound(&self)-> Vec<u8>       { self.sound.as_slice().to_vec() }
 }
