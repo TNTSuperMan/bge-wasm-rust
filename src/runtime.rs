@@ -15,7 +15,8 @@ pub struct Runtime {
 
     do_subframe: bool,
     keystate: u8,
-    framestate: FrameState
+    framestate: FrameState,
+    savedata: Vec<u8>
 }
 #[wasm_bindgen]
 impl Runtime {
@@ -29,13 +30,15 @@ impl Runtime {
 
             do_subframe: do_subframe,
             keystate: 0,
-            framestate: FrameState::new()
+            framestate: FrameState::new(),
+            savedata: Vec::new()
         }
     }
     pub fn emulate_frame(&mut self){ while self.emulate() {} }
     pub fn load(&self, addr: u16) -> u8{ self.memory.load(addr) }
     pub fn store(&mut self, addr: u16, val: u8){ self.memory.store(addr, val) }
     pub fn set_key_state(&mut self, state: u8){ self.keystate = state }
+    pub fn set_save(&mut self, save: Vec<u8>){ self.savedata = save; }
     pub fn frame_state(&mut self) -> FrameState{
         if self.framestate.do_redraw() {
             return self.framestate.pop();
@@ -50,6 +53,11 @@ impl Runtime {
         let bottom = self.pop() as u16;
         let top = self.pop() as u16;
         return bottom | (top << 8);
+    }
+    fn clearIO(&mut self){
+        for i in 0x5000..0x6000 {
+            self.memory.store(i, 0);
+        }
     }
     fn emulate(&mut self) -> bool{
         match self.load(self.pc) {
@@ -159,6 +167,21 @@ impl Runtime {
             },
             0x17 => {
                 self.framestate.stop_sound();
+            },
+            0x18 => {
+                let mode = self.pop();
+                match mode {
+                    2 => {
+                        self.clearIO();
+                        for i in 0..self.savedata.len() {
+                            if i > 0xFFF {
+                                break;
+                            }
+                            self.memory.store((i + 0x5000) as u16, self.savedata[i]);
+                        }
+                    },
+                    _ => {}
+                }
             },
             _ => {}
         }
