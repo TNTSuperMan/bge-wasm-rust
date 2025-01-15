@@ -70,7 +70,7 @@ impl Runtime {
             self.memory.store(i, 0);
         }
     }
-    fn emulate(&mut self) -> bool{
+    pub fn emulate(&mut self) -> bool{
         self.emucount += 1;
         if self.emucount > 1000000 {
             self.emucount = 0;
@@ -121,12 +121,12 @@ impl Runtime {
             0x0a => {
                 let v2 = self.pop();
                 let v1 = self.pop();
-                self.push((v1 > v2) as u8);
+                self.push((v1 == v2) as u8);
             },
             0x0b => {
                 let v2 = self.pop();
                 let v1 = self.pop();
-                self.push((v1 == v2) as u8);
+                self.push((v1 > v2) as u8);
             },
             0x0c => {
                 let addr = self.pop_addr();
