@@ -138,6 +138,14 @@ impl Runtime {
             },
             0x13 => {
                 self.framestate.redraw();
+            },
+            0x14 => {
+                let c = self.pop();
+                let h = self.pop();
+                let w = self.pop();
+                let y = self.pop();
+                let x = self.pop();
+                self.framestate.push_rect(x,y,w,h,c);
             }
             _ => {}
         }
