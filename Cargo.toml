@@ -1,7 +1,11 @@
 [package]
 name = "bge-wasm"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2021"
+description = "BinGameEngine runtime for wasm and javascript"
+license = "MIT"
+repository = "git+ssh://git@github.com/TNTSuperMan/bge-wasm-rust"
+authors = ["TNTSuperMan"]
 
 [lib]
 path = "src/runtime.rs"
