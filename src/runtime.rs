@@ -146,6 +146,12 @@ impl Runtime {
                 let y = self.pop();
                 let x = self.pop();
                 self.framestate.push_rect(x,y,w,h,c);
+            },
+            0x15 => {
+                let y = self.pop();
+                let x = self.pop();
+                let id= self.pop();
+                self.framestate.push_graph(x, y, id);
             }
             _ => {}
         }
