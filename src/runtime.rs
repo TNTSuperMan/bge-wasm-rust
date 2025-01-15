@@ -157,6 +157,7 @@ impl Runtime {
             },
             0x13 => {
                 self.framestate.redraw();
+                self.pc += 1;
                 return false;
             },
             0x14 => {
