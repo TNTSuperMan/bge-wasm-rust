@@ -8,7 +8,6 @@ mod framestate;
 use framestate::FrameState;
 
 mod image;
-
 #[wasm_bindgen]
 pub struct Runtime {
     emucount: u32,
@@ -68,7 +67,8 @@ impl Runtime {
     }
     fn emulate(&mut self) -> bool{
         self.emucount += 1;
-        if self.emucount > 10000 {
+        if self.emucount > 1000000 {
+            self.emucount = 0;
             return false;
         }
         match self.load(self.pc) {
