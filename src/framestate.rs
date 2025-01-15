@@ -48,6 +48,7 @@ pub struct FrameState {
     pub _do_updimg: bool,
     pub stopsound: bool
 }
+#[wasm_bindgen]
 impl FrameState {
     pub fn new() -> FrameState{
         FrameState {
