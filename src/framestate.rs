@@ -4,6 +4,8 @@ use wasm_bindgen::prelude::*;
 pub struct Rectangle {
     x: u8,
     y: u8,
+    w: u8,
+    h: u8,
     r: u8,
     g: u8,
     b: u8
@@ -13,6 +15,8 @@ impl Clone for Rectangle {
         Rectangle {
             x: self.x,
             y: self.y,
+            w: self.w,
+            h: self.h,
             r: self.r,
             g: self.g,
             b: self.b
@@ -78,13 +82,15 @@ impl FrameState {
     pub fn do_redraw(&self) -> bool{
         return self._do_redraw;
     }
-    pub fn push_rect(&mut self, x: u8, y: u8, c: u8){
+    pub fn push_rect(&mut self, x: u8, y: u8, w: u8, h: u8, c: u8){
         let r = (c & 0b110000) >> 4;
         let g = (c & 0b001100) >> 2;
         let b = (c & 0b000011) >> 0;
         self.rect.push(Rectangle {
             x: x,
             y: y,
+            w: w,
+            h: h,
             r: r,
             g: g,
             b: b
