@@ -52,7 +52,8 @@ pub fn tokenize(data: &[u8]) -> Vec<Image>{
             3 => {
                 images.push(Image{
                     data: stacked_data.as_slice().to_vec()
-                })
+                });
+                stacked_data.clear();
             }
             _ => {}
         }
