@@ -50,6 +50,7 @@ impl Runtime {
     pub fn store(&mut self, addr: u16, val: u8){ self.memory.store(addr, val) }
     pub fn set_key_state(&mut self, state: u8){ self.keystate = state }
     pub fn set_save(&mut self, save: Vec<u8>){ self.savedata = save; }
+    pub fn get_save(&self) -> Vec<u8>{ self.savedata.as_slice().to_vec() }
     pub fn frame_state(&mut self) -> FrameState{
         if self.framestate.do_redraw() {
             return self.framestate.pop();
@@ -200,6 +201,9 @@ impl Runtime {
                             self.memory.store((i + 0x5000) as u16, self.savedata[i]);
                         }
                     },
+                    3 => {
+                        self.framestate._do_save = true;
+                    }
                     4 => { self.clear_io(); }
                     _ => {}
                 }

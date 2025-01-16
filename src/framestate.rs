@@ -46,7 +46,8 @@ pub struct FrameState {
     imgs: Vec<String>,
     pub _do_redraw: bool,
     pub _do_updimg: bool,
-    pub stopsound: bool
+    pub stopsound: bool,
+    pub _do_save: bool
 }
 #[wasm_bindgen]
 impl FrameState {
@@ -58,7 +59,8 @@ impl FrameState {
             sound:Vec::new(),
             _do_redraw: false,
             _do_updimg: false,
-            stopsound: false
+            stopsound: false,
+            _do_save: false
         }
     }
     pub fn clone(&self) -> FrameState{
@@ -69,7 +71,8 @@ impl FrameState {
             sound: self.sound.as_slice().to_vec(),
             _do_redraw: self._do_redraw,
             _do_updimg: self._do_updimg,
-            stopsound: self.stopsound
+            stopsound: self.stopsound,
+            _do_save: false
         }
     }
     pub fn pop(&mut self) -> FrameState{
