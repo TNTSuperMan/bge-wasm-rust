@@ -123,4 +123,5 @@ impl FrameState {
     pub fn get_rect(&self) -> Vec<Rectangle>{ self.rect .as_slice().to_vec() }
     pub fn get_graph(&self)-> Vec<Graphic>  { self.graph.as_slice().to_vec() }
     pub fn get_sound(&self)-> Vec<u8>       { self.sound.as_slice().to_vec() }
+    pub fn get_imgs(&self) -> Vec<String>   { self.imgs .as_slice().to_vec() }
 }
