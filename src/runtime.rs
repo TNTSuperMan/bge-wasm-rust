@@ -140,9 +140,8 @@ impl Runtime {
                 return true;
             },
             0x0e => {
-                let addr = self.pop_addr();
                 self.callstack.push(self.pc);
-                self.pc = addr;
+                self.pc = self.pop_addr();
                 return true;
             },
             0x0f => {
