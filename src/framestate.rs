@@ -81,9 +81,12 @@ impl FrameState {
 
         self.rect = Vec::new();
         self.graph= Vec::new();
+        self.imgs = Vec::new();
         self.sound= Vec::new();
         self._do_redraw = false;
+        self._do_updimg = false;
         self.stopsound = false;
+        self._do_save = false;
 
         return clone;
     }
