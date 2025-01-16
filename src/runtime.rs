@@ -20,7 +20,7 @@ pub struct Runtime {
     memory: Memory,
     stack: Vec<u8>,
     callstack: Vec<u16>,
-    pub pc: u16,
+    pc: u16,
 
     do_subframe: bool,
     keystate: u8,
@@ -70,7 +70,7 @@ impl Runtime {
             self.memory.store(i, 0);
         }
     }
-    pub fn emulate(&mut self) -> bool{
+    fn emulate(&mut self) -> bool{
         self.emucount += 1;
         if self.emucount > 1000000 {
             self.emucount = 0;
