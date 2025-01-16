@@ -1,3 +1,4 @@
+use crate::bgeimage::toimg::Bin;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -43,7 +44,7 @@ pub struct FrameState {
     rect: Vec<Rectangle>,
     graph:Vec<Graphic>,
     sound:Vec<u8>,
-    imgs: Vec<String>,
+    imgs: Vec<Bin>,
     pub _do_redraw: bool,
     pub _do_updimg: bool,
     pub stopsound: bool,
@@ -119,12 +120,12 @@ impl FrameState {
     pub fn stop_sound(&mut self){
         self.stopsound = true;
     }
-    pub fn set_img(&mut self, imgs: Vec<String>){
+    pub fn set_img(&mut self, imgs: Vec<Bin>){
         self._do_updimg = true;
         self.imgs = imgs;
     }
     pub fn get_rect(&self) -> Vec<Rectangle>{ self.rect .as_slice().to_vec() }
     pub fn get_graph(&self)-> Vec<Graphic>  { self.graph.as_slice().to_vec() }
     pub fn get_sound(&self)-> Vec<u8>       { self.sound.as_slice().to_vec() }
-    pub fn get_imgs(&self) -> Vec<String>   { self.imgs .as_slice().to_vec() }
+    pub fn get_imgs(&self) -> Vec<Bin>      { self.imgs .as_slice().to_vec() }
 }

@@ -1,4 +1,5 @@
-use image::bin2img;
+mod bgeimage;
+use bgeimage::bin2img;
 use wasm_bindgen::prelude::*;
 
 mod memory;
@@ -12,7 +13,6 @@ extern "C" {
     #[wasm_bindgen(js_namespace=console)]
     fn log(s: &str);
 }
-mod image;
 #[wasm_bindgen]
 pub struct Runtime {
     emucount: u32,

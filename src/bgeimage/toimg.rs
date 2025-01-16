@@ -1,13 +1,38 @@
 extern crate image;
 use std::io::Cursor;
+use wasm_bindgen::prelude::*;
+
 
 use image::{ImageBuffer, Rgba};
-use base64::encode;
 
-use crate::image::tokenize::Image;
+use crate::bgeimage::tokenize::Image;
 
-pub fn tokens2imgs(tokens: Vec<Image>) -> Vec<String>{
-    let mut imgs: Vec<String> = Vec::new();
+#[wasm_bindgen]
+pub struct Bin{
+    data: Vec<u8>
+}
+impl Clone for Bin{
+    fn clone(&self) -> Bin{
+        Bin{
+            data: self.data.as_slice().to_vec()
+        }
+    }
+}
+#[wasm_bindgen]
+impl Bin{
+    #[wasm_bindgen(constructor)]
+    pub fn new(data: Vec<u8>) -> Bin{
+        Bin {
+            data: data
+        }
+    }
+    pub fn get(&self) -> Vec<u8>{
+        return self.data.as_slice().to_vec();
+    }
+}
+
+pub fn tokens2imgs(tokens: Vec<Image>) -> Vec<Bin>{
+    let mut imgs: Vec<Bin> = Vec::new();
     for i in 0..tokens.len() {
         imgs.push(token2img(tokens[i].clone()));
     }
@@ -15,7 +40,7 @@ pub fn tokens2imgs(tokens: Vec<Image>) -> Vec<String>{
 }
 
 const TRANSPARENT: Rgba<u8> = Rgba([0,0,0,0]);
-fn token2img(token: Image) -> String{
+fn token2img(token: Image) -> Bin{
     let mut width: usize = 0;
     let height: usize = token.data.len();
     for i in 0..height {
@@ -44,5 +69,5 @@ fn token2img(token: Image) -> String{
         img.write_to(&mut cursor, image::ImageFormat::Png).expect("Failed to generate PNG");
     }
     
-    return encode(buffer);
+    return Bin::new(buffer);
 }
