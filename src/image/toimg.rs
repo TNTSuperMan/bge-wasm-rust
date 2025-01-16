@@ -1,4 +1,6 @@
 extern crate image;
+use std::io::Cursor;
+
 use image::{ImageBuffer, Rgba};
 use base64::encode;
 
@@ -35,6 +37,12 @@ fn token2img(token: Image) -> String{
             }
         }
     }
+
+    let mut buffer: Vec<u8> = Vec::new();
+    {
+        let mut cursor = Cursor::new(&mut buffer);
+        img.write_to(&mut cursor, image::ImageFormat::Png).expect("Failed to generate PNG");
+    }
     
-    return encode(img.into_raw());
+    return encode(buffer);
 }
