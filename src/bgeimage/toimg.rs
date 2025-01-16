@@ -57,7 +57,7 @@ fn token2img(token: Image) -> Bin{
                     token.data[y][x].r * 85,
                     token.data[y][x].g * 85,
                     token.data[y][x].b * 85,
-                    1
+                    255
                 ]));
             }
         }
