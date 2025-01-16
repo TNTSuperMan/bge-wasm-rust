@@ -7,4 +7,4 @@ Rustで構成されたWASM(JavaScript)製BinGameEngineランタイムです。
 $ wasm-pack build --target web
 ```
 ## 状態
-絶賛製作中☆☆
+だいたいできた、サウンド機能はまたいつか
