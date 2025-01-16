@@ -29,9 +29,9 @@ fn token2img(token: Image) -> String{
         for x in 0..token.data[y].len() {
             if !token.data[y][x].is_transparent {
                 img.put_pixel(x as u32, y as u32, Rgba([
-                    token.data[y][x].r,
-                    token.data[y][x].g,
-                    token.data[y][x].b,
+                    token.data[y][x].r * 85,
+                    token.data[y][x].g * 85,
+                    token.data[y][x].b * 85,
                     1
                 ]));
             }
