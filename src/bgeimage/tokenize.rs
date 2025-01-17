@@ -35,7 +35,7 @@ impl Image {
 pub fn tokenize(data: &[u8]) -> Vec<Image>{
     let mut len = data.len() - 1;
     while data[len] == 0 { len -= 1; }
-
+    len += 1;
     let mut images: Vec<Image> = Vec::new();
     let mut stacked_data: Vec<Vec<Pixel>> = Vec::new();
     stacked_data.push(Vec::new());
