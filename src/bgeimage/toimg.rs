@@ -48,7 +48,7 @@ fn token2img(token: Image) -> Bin{
             width = token.data[i].len();
         }
     }
-    let mut img = ImageBuffer::from_pixel(width as u32, height as u32, TRANSPARENT);
+    let mut img = ImageBuffer::from_pixel(width.max(1) as u32, height as u32, TRANSPARENT);
 
     for y in 0..height {
         for x in 0..token.data[y].len() {
