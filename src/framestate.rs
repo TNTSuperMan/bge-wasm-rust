@@ -2,47 +2,36 @@ use crate::bgeimage::toimg::Bin;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-pub struct Rectangle {
+pub struct Display {
     pub x: u8,
     pub y: u8,
     pub w: u8,
     pub h: u8,
     pub r: u8,
     pub g: u8,
-    pub b: u8
+    pub b: u8,
+
+    pub is_graph: bool,
+    pub gid: u8
 }
-impl Clone for Rectangle {
-    fn clone(&self) -> Rectangle {
-        Rectangle {
+impl Clone for Display {
+    fn clone(&self) -> Display {
+        Display {
             x: self.x,
             y: self.y,
             w: self.w,
             h: self.h,
             r: self.r,
             g: self.g,
-            b: self.b
-        }
-    }
-}
-#[wasm_bindgen]
-pub struct Graphic {
-    pub x: u8,
-    pub y: u8,
-    pub id:u8
-}
-impl Clone for Graphic {
-    fn clone(&self) -> Graphic {
-        Graphic {
-            x: self.x,
-            y: self.y,
-            id:self.id
+            b: self.b,
+            is_graph: self.is_graph,
+            gid: self.gid
         }
     }
 }
 #[wasm_bindgen]
 pub struct FrameState {
-    rect: Vec<Rectangle>,
-    graph:Vec<Graphic>,
+    disps: Vec<Display>,
     sound:Vec<u8>,
     imgs: Vec<Bin>,
     pub _do_redraw: bool,
@@ -54,8 +43,7 @@ pub struct FrameState {
 impl FrameState {
     pub fn new() -> FrameState{
         FrameState {
-            rect: Vec::new(),
-            graph:Vec::new(),
+            disps: Vec::new(),
             imgs: Vec::new(),
             sound:Vec::new(),
             _do_redraw: false,
@@ -66,8 +54,7 @@ impl FrameState {
     }
     pub fn clone(&self) -> FrameState{
         FrameState {
-            rect:  self.rect.as_slice().to_vec(),
-            graph: self.graph.as_slice().to_vec(),
+            disps:  self.disps.as_slice().to_vec(),
             imgs:  self.imgs.as_slice().to_vec(),
             sound: self.sound.as_slice().to_vec(),
             _do_redraw: self._do_redraw,
@@ -79,8 +66,7 @@ impl FrameState {
     pub fn pop(&mut self) -> FrameState{
         let clone = self.clone();
 
-        self.rect = Vec::new();
-        self.graph= Vec::new();
+        self.disps = Vec::new();
         self.imgs = Vec::new();
         self.sound= Vec::new();
         self._do_redraw = false;
@@ -100,21 +86,25 @@ impl FrameState {
         let r = (c & 0b110000) >> 4;
         let g = (c & 0b001100) >> 2;
         let b = (c & 0b000011) >> 0;
-        self.rect.push(Rectangle {
+        self.disps.push(Display {
             x: x,
             y: y,
             w: w,
             h: h,
             r: r,
             g: g,
-            b: b
+            b: b,
+            is_graph: false,
+            gid: 0
         })
     }
     pub fn push_graph(&mut self, x: u8, y: u8, id: u8){
-        self.graph.push(Graphic {
+        self.disps.push(Display {
             x: x,
             y: y,
-            id:id
+            w: 0, h: 0, r: 0, g: 0, b: 0,
+            is_graph: true,
+            gid:id
         })
     }
     pub fn push_sound(&mut self, id: u8){
@@ -127,8 +117,7 @@ impl FrameState {
         self._do_updimg = true;
         self.imgs = imgs;
     }
-    pub fn get_rect(&self) -> Vec<Rectangle>{ self.rect .as_slice().to_vec() }
-    pub fn get_graph(&self)-> Vec<Graphic>  { self.graph.as_slice().to_vec() }
+    pub fn get_disps(&self)-> Vec<Display>  { self.disps .as_slice().to_vec() }
     pub fn get_sound(&self)-> Vec<u8>       { self.sound.as_slice().to_vec() }
     pub fn get_imgs(&self) -> Vec<Bin>      { self.imgs .as_slice().to_vec() }
 }
