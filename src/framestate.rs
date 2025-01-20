@@ -91,9 +91,9 @@ impl FrameState {
             y: y,
             w: w,
             h: h,
-            r: r,
-            g: g,
-            b: b,
+            r: r * 85,
+            g: g * 85,
+            b: b * 85,
             is_graph: false,
             gid: 0
         })
