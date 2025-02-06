@@ -9,9 +9,8 @@ mod framestate;
 use framestate::FrameState;
 
 #[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace=console)]
-    fn log(s: &str);
+pub fn init_panic_fook(){
+    console_error_panic_hook::set_once();
 }
 #[wasm_bindgen]
 pub struct Runtime {
