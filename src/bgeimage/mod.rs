@@ -9,7 +9,10 @@ pub mod toimg;
 use toimg::tokens2imgs;
 
 pub fn bin2img(data: &[u8]) -> Vec<toimg::Bin>{
-    let extracted = inflate_bytes(data).expect("Image extract error");
+    let (lens, raw) = data.split_at(2);
+    let image_len = (lens[0]<<8) | lens[1];
+    let (imgdata, _p) = raw.split_at(image_len as usize);
+    let extracted = inflate_bytes(imgdata).expect("Image extract error");
     let token = tokenize(extracted.as_slice());
     return tokens2imgs(token);
 }
