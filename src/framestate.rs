@@ -10,6 +10,7 @@ pub struct Display {
     pub r: u8,
     pub g: u8,
     pub b: u8,
+    pub a: bool,
 
     pub is_graph: bool,
     pub gid: u8
@@ -24,6 +25,7 @@ impl Clone for Display {
             r: self.r,
             g: self.g,
             b: self.b,
+            a: self.a,
             is_graph: self.is_graph,
             gid: self.gid
         }
@@ -83,6 +85,7 @@ impl FrameState {
         return self._do_redraw;
     }
     pub fn push_rect(&mut self, x: u8, y: u8, w: u8, h: u8, c: u8){
+        let a = (c & 0b11000000) >> 6;
         let r = (c & 0b110000) >> 4;
         let g = (c & 0b001100) >> 2;
         let b = (c & 0b000011) >> 0;
@@ -94,6 +97,7 @@ impl FrameState {
             r: r * 85,
             g: g * 85,
             b: b * 85,
+            a: a == 0,
             is_graph: false,
             gid: 0
         })
@@ -102,7 +106,7 @@ impl FrameState {
         self.disps.push(Display {
             x: x,
             y: y,
-            w: 0, h: 0, r: 0, g: 0, b: 0,
+            w: 0, h: 0, r: 0, g: 0, b: 0, a: true,
             is_graph: true,
             gid:id
         })
