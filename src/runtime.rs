@@ -42,7 +42,10 @@ impl Runtime {
     }
     pub fn emulate_frame(&mut self){
         for _emucount in 0..1000000 {
-            self.emulate();
+            let result = self.emulate();
+            if !result {
+                return;
+            }
         }
     }
     pub fn load(&self, addr: u16) -> u8{ self.memory.load(addr) }
