@@ -31,16 +31,16 @@ impl Bin{
     }
 }
 
-pub fn tokens2imgs(tokens: Vec<Image>) -> Vec<Bin>{
+pub fn tokens2imgs(tokens: Vec<Image>) -> Result<Vec<Bin>, String>{
     let mut imgs: Vec<Bin> = Vec::new();
     for i in 0..tokens.len() {
-        imgs.push(token2img(tokens[i].clone()));
+        imgs.push(token2img(tokens[i].clone())?);
     }
-    return imgs;
+    return Ok(imgs);
 }
 
 const TRANSPARENT: Rgba<u8> = Rgba([0,0,0,0]);
-fn token2img(token: Image) -> Bin{
+fn token2img(token: Image) -> Result<Bin, String>{
     let mut width: usize = 0;
     let height: usize = token.data.len();
     for i in 0..height {
@@ -66,8 +66,10 @@ fn token2img(token: Image) -> Bin{
     let mut buffer: Vec<u8> = Vec::new();
     {
         let mut cursor = Cursor::new(&mut buffer);
-        img.write_to(&mut cursor, image::ImageFormat::Png).expect("Failed to generate PNG");
+        if let Err(_e) = img.write_to(&mut cursor, image::ImageFormat::Png) {
+            return Err(String::from("Failed to generate PNG"));
+        }
     }
     
-    return Bin::new(buffer);
+    return Ok(Bin::new(buffer));
 }

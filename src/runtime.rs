@@ -204,7 +204,7 @@ impl Runtime {
                 let mode = self.pop()?;
                 match mode {
                     0 => {
-                        self.framestate.set_img(bin2img(self.memory.get_io()));
+                        self.framestate.set_img(bin2img(self.memory.get_io())?);
                     },
                     2 => {
                         self.clear_io();
