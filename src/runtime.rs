@@ -14,8 +14,6 @@ pub fn init_panic_fook(){
 }
 #[wasm_bindgen]
 pub struct Runtime {
-    emucount: u32,
-
     memory: Memory,
     stack: Vec<u8>,
     callstack: Vec<u16>,
@@ -31,8 +29,6 @@ impl Runtime {
     #[wasm_bindgen(constructor)]
     pub fn new(rom: Vec<u8>, do_subframe: bool) -> Runtime{
         Runtime {
-            emucount: 0,
-
             memory: Memory::new(rom),
             stack: Vec::new(),
             callstack: Vec::new(),
@@ -44,7 +40,11 @@ impl Runtime {
             savedata: Vec::new()
         }
     }
-    pub fn emulate_frame(&mut self){ self.emucount = 0; while self.emulate() {} }
+    pub fn emulate_frame(&mut self){
+        for _emucount in 0..1000000 {
+            self.emulate();
+        }
+    }
     pub fn load(&self, addr: u16) -> u8{ self.memory.load(addr) }
     pub fn store(&mut self, addr: u16, val: u8){ self.memory.store(addr, val) }
     pub fn set_key_state(&mut self, state: u8){ self.keystate = state }
@@ -71,11 +71,6 @@ impl Runtime {
         }
     }
     fn emulate(&mut self) -> bool{
-        self.emucount += 1;
-        if self.emucount > 1000000 {
-            self.emucount = 0;
-            return false;
-        }
         match self.load(self.pc) {
             0x00 => {},
             0x01 => {
