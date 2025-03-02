@@ -68,6 +68,9 @@ impl Runtime {
             return self.framestate.clone();
         }
     }
+    pub fn get_pc(&self) -> u16 { return self.pc; }
+    pub fn get_stack(&self) -> Vec<u8> { return self.stack.as_slice().to_vec(); }
+    pub fn get_callstack(&self) -> Vec<u16> { return self.callstack.as_slice().to_vec(); }
 
     fn push(&mut self, val: u8){ self.stack.push(val) }
     fn pop(&mut self) -> Result<u8, String>{
