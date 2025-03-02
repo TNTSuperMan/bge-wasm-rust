@@ -40,13 +40,21 @@ impl Runtime {
             savedata: Vec::new()
         }
     }
-    pub fn emulate_frame(&mut self){
+    pub fn emulate_frame(&mut self) -> String{
         for _emucount in 0..1000000 {
             let result = self.emulate();
-            if !result {
-                return;
+            match result {
+                Ok(r) => {
+                    if !r {
+                        return String::from("");
+                    }
+                },
+                Err(e) => {
+                    return e;
+                }
             }
         }
+        return String::from("");
     }
     pub fn load(&self, addr: u16) -> u8{ self.memory.load(addr) }
     pub fn store(&mut self, addr: u16, val: u8){ self.memory.store(addr, val) }
@@ -62,18 +70,24 @@ impl Runtime {
     }
 
     fn push(&mut self, val: u8){ self.stack.push(val) }
-    fn pop(&mut self) -> u8{ self.stack.pop().expect("stack underflow") }
-    fn pop_addr(&mut self) -> u16{
-        let bottom = self.pop() as u16;
-        let top = self.pop() as u16;
-        return bottom | (top << 8);
+    fn pop(&mut self) -> Result<u8, String>{
+        if self.stack.len() == 0 {
+            return Err(String::from("Stack underflow"));
+        }else{
+            return Ok(self.stack.pop().expect("Stack underflow"));
+        }
+    }
+    fn pop_addr(&mut self) -> Result<u16, String>{
+        let bottom = self.pop()? as u16;
+        let top = self.pop()? as u16;
+        return Ok(bottom | (top << 8));
     }
     fn clear_io(&mut self){
         for i in 0x5000..0x6000 {
             self.memory.store(i, 0);
         }
     }
-    fn emulate(&mut self) -> bool{
+    fn emulate(&mut self) -> Result<bool, String>{
         match self.load(self.pc) {
             0x00 => {},
             0x01 => {
@@ -81,77 +95,77 @@ impl Runtime {
                 self.push(self.load(self.pc));
             },
             0x02 => {
-                self.pop();
+                self.pop()?;
             },
             0x03 => {
                 self.stack.clear();
             },
             0x04 => {
-                let v2 = self.pop();
-                let v1 = self.pop();
+                let v2 = self.pop()?;
+                let v1 = self.pop()?;
                 self.push(v1 + v2)
             },
             0x05 => {
-                let v2 = self.pop();
-                let v1 = self.pop();
+                let v2 = self.pop()?;
+                let v1 = self.pop()?;
                 self.push(v1 - v2)
             },
             0x06 => {
-                let v2 = self.pop();
-                let v1 = self.pop();
+                let v2 = self.pop()?;
+                let v1 = self.pop()?;
                 self.push(v1 * v2)
             },
             0x07 => {
-                let v2 = self.pop();
-                let v1 = self.pop();
+                let v2 = self.pop()?;
+                let v1 = self.pop()?;
                 self.push(v1 / v2)
             },
             0x08 => {
-                let v2 = self.pop();
-                let v1 = self.pop();
+                let v2 = self.pop()?;
+                let v1 = self.pop()?;
                 self.push(v1 % v2)
             },
             0x09 => {
-                let v2 = self.pop();
-                let v1 = self.pop();
+                let v2 = self.pop()?;
+                let v1 = self.pop()?;
                 self.push(!(v1 & v2))
             },
             0x0a => {
-                let v2 = self.pop();
-                let v1 = self.pop();
+                let v2 = self.pop()?;
+                let v1 = self.pop()?;
                 self.push((v1 == v2) as u8);
             },
             0x0b => {
-                let v2 = self.pop();
-                let v1 = self.pop();
+                let v2 = self.pop()?;
+                let v1 = self.pop()?;
                 self.push((v1 > v2) as u8);
             },
             0x0c => {
-                let addr = self.pop_addr();
-                if self.pop() != 0 {
+                let addr = self.pop_addr()?;
+                if self.pop()? != 0 {
                     self.pc = addr;
-                    return true;
+                    return Ok(true);
                 }
             },
             0x0d => {
-                self.pc = self.pop_addr();
-                return true;
+                self.pc = self.pop_addr()?;
+                return Ok(true);
             },
             0x0e => {
                 self.callstack.push(self.pc);
-                self.pc = self.pop_addr();
-                return true;
+                self.pc = self.pop_addr()?;
+                return Ok(true);
             },
             0x0f => {
                 self.pc = self.callstack.pop().expect("Callstack underflow");
             },
             0x10 => {
-                let addr = self.pop_addr();
+                let addr = self.pop_addr()?;
                 self.push(self.load(addr))
             },
             0x11 => {
-                let addr = self.pop_addr();
-                let val = self.pop();
+                let addr = self.pop_addr()?;
+                let val = self.pop()?;
                 self.store(addr, val);
             },
             0x12 => {
@@ -160,31 +174,31 @@ impl Runtime {
             0x13 => {
                 self.framestate.redraw();
                 self.pc += 1;
-                return false;
+                return Ok(false);
             },
             0x14 => {
-                let c = self.pop();
-                let h = self.pop();
-                let w = self.pop();
-                let y = self.pop();
-                let x = self.pop();
+                let c = self.pop()?;
+                let h = self.pop()?;
+                let w = self.pop()?;
+                let y = self.pop()?;
+                let x = self.pop()?;
                 self.framestate.push_rect(x,y,w,h,c);
             },
             0x15 => {
-                let id= self.pop();
-                let y = self.pop();
-                let x = self.pop();
+                let id= self.pop()?;
+                let y = self.pop()?;
+                let x = self.pop()?;
                 self.framestate.push_graph(x, y, id);
             },
             0x16 => {
-                let id = self.pop();
+                let id = self.pop()?;
                 self.framestate.push_sound(id);
             },
             0x17 => {
                 self.framestate.stop_sound();
             },
             0x18 => {
-                let mode = self.pop();
+                let mode = self.pop()?;
                 match mode {
                     0 => {
                         self.framestate.set_img(bin2img(self.memory.get_io()));
@@ -208,7 +222,7 @@ impl Runtime {
             _ => {}
         }
         self.pc += 1;
-        return !self.do_subframe || self.load(self.pc) != 0x12;
+        return Ok(!self.do_subframe || self.load(self.pc) != 0x12);
     }
 }
 
