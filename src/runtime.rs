@@ -56,6 +56,17 @@ impl Runtime {
         }
         return String::from("");
     }
+    pub fn emulate_one(&mut self) -> String{
+        let result = self.emulate();
+        match result {
+            Ok(_) => {
+                return String::from("");
+            },
+            Err(e) => {
+                return e;
+            }
+        }
+    }
     pub fn load(&self, addr: u16) -> u8{ self.memory.load(addr) }
     pub fn store(&mut self, addr: u16, val: u8){ self.memory.store(addr, val) }
     pub fn set_key_state(&mut self, state: u8){ self.keystate = state }
