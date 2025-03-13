@@ -171,7 +171,16 @@ impl Runtime {
                 return Ok(true);
             },
             0x0f => {
-                self.pc = self.callstack.pop().expect("Callstack underflow");
+                let addr = self.callstack.pop();
+                
+                match addr {
+                    Some(to) => {
+                        self.pc = to;
+                    },
+                    None => {
+                        return Err(String::from("Callstack underflow"));
+                    }
+                }
             },
             0x10 => {
                 let addr = self.pop_addr()?;
