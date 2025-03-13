@@ -36,15 +36,15 @@ pub fn tokenize(data: &[u8]) -> Vec<Image>{
     let mut images: Vec<Image> = Vec::new();
     let mut stacked_data: Vec<Vec<Pixel>> = Vec::new();
     stacked_data.push(Vec::new());
-    for i in 0..4096 {
-        match (data[i] & 0b11000000) >> 6 {
+    for d in data {
+        match (d & 0b11000000) >> 6 {
             0 => {
                 let last_i = stacked_data.len() - 1;
-                stacked_data[last_i].push(Pixel::new(data[i]));
+                stacked_data[last_i].push(Pixel::new(*d));
             },
             1 => {
                 let last_i = stacked_data.len() - 1;
-                stacked_data[last_i].push(Pixel::new(data[i]));
+                stacked_data[last_i].push(Pixel::new(*d));
             },
             2 => {
                 stacked_data.push(Vec::new());
