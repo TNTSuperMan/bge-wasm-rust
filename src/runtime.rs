@@ -233,6 +233,10 @@ impl Runtime {
                     _ => {}
                 }
             },
+            0x19 => {
+                self.pc += 1;
+                return Err(String::from("break"));
+            },
             _ => {}
         }
         self.pc += 1;
