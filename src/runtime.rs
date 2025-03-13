@@ -18,6 +18,7 @@ pub struct Runtime {
     stack: Vec<u8>,
     callstack: Vec<u16>,
     pc: u16,
+    ccc: u64,
 
     do_subframe: bool,
     keystate: u8,
@@ -33,6 +34,7 @@ impl Runtime {
             stack: Vec::new(),
             callstack: Vec::new(),
             pc: 0,
+            ccc: 0,
 
             do_subframe: do_subframe,
             keystate: 0,
@@ -80,6 +82,7 @@ impl Runtime {
         }
     }
     pub fn get_pc(&self) -> u16 { return self.pc; }
+    pub fn get_ccc(&self) -> u64 { return self.ccc }
     pub fn get_stack(&self) -> Vec<u8> { return self.stack.as_slice().to_vec(); }
     pub fn get_callstack(&self) -> Vec<u16> { return self.callstack.as_slice().to_vec(); }
 
@@ -102,6 +105,7 @@ impl Runtime {
         }
     }
     fn emulate(&mut self) -> Result<bool, String>{
+        self.ccc += 1;
         match self.load(self.pc) {
             0x00 => {},
             0x01 => {
