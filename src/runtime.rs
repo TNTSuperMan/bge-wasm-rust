@@ -100,7 +100,7 @@ impl Runtime {
         return Ok(bottom | (top << 8));
     }
     fn clear_io(&mut self){
-        for i in 0x5000..0x6000 {
+        for i in 0xf000..0xffff {
             self.memory.store(i, 0);
         }
     }
