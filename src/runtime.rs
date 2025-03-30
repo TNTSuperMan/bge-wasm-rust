@@ -8,6 +8,9 @@ use memory::Memory;
 mod framestate;
 use framestate::FrameState;
 
+mod music;
+use music::bin2wav;
+
 #[wasm_bindgen]
 pub fn init_panic_fook(){
     console_error_panic_hook::set_once();
@@ -229,6 +232,9 @@ impl Runtime {
                 match mode {
                     0 => {
                         self.framestate.set_img(bin2img(self.memory.get_io())?);
+                    },
+                    1 => {
+                        bin2wav(self.memory.get_io())?;
                     },
                     2 => {
                         self.clear_io();
