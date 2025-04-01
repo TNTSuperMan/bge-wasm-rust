@@ -56,7 +56,7 @@ impl Music {
     }
 }
 
-pub fn tokenize(data: &[u8]) -> Result<Vec<Music>, String>{
+pub fn tokenize(data: &[u8]) -> Vec<Music>{
     let mut state: u8 = 0;
     let mut before: u8 = 0xff;
     let mut music: Music = Music::new(0);
@@ -107,5 +107,5 @@ pub fn tokenize(data: &[u8]) -> Result<Vec<Music>, String>{
             }
         }
     }
-    return Err(String::from(""));
+    return musics;
 }
