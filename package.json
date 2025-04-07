@@ -1,6 +1,6 @@
 {
   "name": "bge-wasm",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "description": "BinGameEngine runtime for wasn and JavaScript",
   "main": "node/bge_wasm.js",
   "author": "TNTSuperMan",
