@@ -1,0 +1,27 @@
+{
+  "name": "bge-wasm",
+  "version": "0.0.0",
+  "description": "BinGameEngine runtime for wasn and JavaScript",
+  "main": "node/bge_wasm.js",
+  "author": "TNTSuperMan",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types":   "./node/bge_wasm.d.ts",
+      "require": "./node/bge_wasm.js"
+    },
+    "./node": {
+      "types":   "./node/bge_wasm.d.ts",
+      "require": "./node/bge_wasm.js"
+    },
+    "./bundler": {
+      "types":  "./bundler/bge_wasm.d.ts",
+      "import": "./bundler/bge_wasm.js"
+    },
+    "./web": {
+      "types":   "./web/bge_wasm.d.ts",
+      "browser": "./web/bge_wasm.js",
+      "import":  "./web/bge_wasm.js"
+    }
+  }
+}
