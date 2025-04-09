@@ -11,6 +11,8 @@ NodeJS・bun上で実行する人は`bge-wasm`または`bge-wasm/node`をイン�
 #### ブラウザ用
 WebAssemblyファイルを`fetch`で読み込むタイプです。  
 Web上で実行する人・CDNから使う人・Viteを使う人は`bge-wasm/web`をインポートしてください。
+#### それ以外
+それ以外の場合は、`bge-wasm/web`の`initSync`に`bge-wasm/wasm`のパスから解決されるファイルをどうにかして入れてください。
 ## これを開発する場合のセットアップ
 [こちらをご参照ください。](https://qiita.com/osanshouo/items/40f087cc79a1446ad7ef#%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89)
 ## 状態
