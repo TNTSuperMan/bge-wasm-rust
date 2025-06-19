@@ -1,8 +1,8 @@
 [package]
 name = "bge-wasm"
-version = "0.0.2"
+version = "0.0.5"
 edition = "2021"
-description = "BinGameEngine runtime for wasm and javascript"
+description = "BinGameEngine runtime for wasm and JavaScript"
 license = "MIT"
 repository = "git+ssh://git@github.com/TNTSuperMan/bge-wasm-rust"
 authors = ["TNTSuperMan"]
@@ -16,6 +16,7 @@ wasm-bindgen = "0.2"
 image = "*"
 inflate = "0.4.5"
 console_error_panic_hook = "0.1.7"
+wavegen = "0.4.1"
 
-[profile.release]
+[profile.dev]
 debug = true

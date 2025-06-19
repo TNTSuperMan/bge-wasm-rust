@@ -80,12 +80,13 @@ dependencies = [
 
 [[package]]
 name = "bge-wasm"
-version = "0.0.2"
+version = "0.0.5"
 dependencies = [
  "console_error_panic_hook",
  "image",
  "inflate",
  "wasm-bindgen",
+ "wavegen",
 ]
 
 [[package]]
@@ -982,6 +983,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1a05d73b933a847d6cccdda8f838a22ff101ad9bf93e33684f39c1f5f0eece3d"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "wavegen"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2913201c3194677183e058a7ddb1a237a19e4e6b97275d9fe431c41a247f449c"
+dependencies = [
+ "num-traits",
 ]
 
 [[package]]

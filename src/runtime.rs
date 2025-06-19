@@ -8,6 +8,9 @@ use memory::Memory;
 mod framestate;
 use framestate::FrameState;
 
+//mod music;
+//use music::bin2wav;
+
 #[wasm_bindgen]
 pub fn init_panic_fook(){
     console_error_panic_hook::set_once();
@@ -18,6 +21,7 @@ pub struct Runtime {
     stack: Vec<u8>,
     callstack: Vec<u16>,
     pc: u16,
+    ccc: u64,
 
     do_subframe: bool,
     keystate: u8,
@@ -33,6 +37,7 @@ impl Runtime {
             stack: Vec::new(),
             callstack: Vec::new(),
             pc: 0,
+            ccc: 0,
 
             do_subframe: do_subframe,
             keystate: 0,
@@ -80,6 +85,7 @@ impl Runtime {
         }
     }
     pub fn get_pc(&self) -> u16 { return self.pc; }
+    pub fn get_ccc(&self) -> u64 { return self.ccc }
     pub fn get_stack(&self) -> Vec<u8> { return self.stack.as_slice().to_vec(); }
     pub fn get_callstack(&self) -> Vec<u16> { return self.callstack.as_slice().to_vec(); }
 
@@ -97,11 +103,12 @@ impl Runtime {
         return Ok(bottom | (top << 8));
     }
     fn clear_io(&mut self){
-        for i in 0x5000..0x6000 {
+        for i in 0xf000..0xffff {
             self.memory.store(i, 0);
         }
     }
     fn emulate(&mut self) -> Result<bool, String>{
+        self.ccc += 1;
         match self.load(self.pc) {
             0x00 => {},
             0x01 => {
@@ -171,7 +178,16 @@ impl Runtime {
                 return Ok(true);
             },
             0x0f => {
-                self.pc = self.callstack.pop().expect("Callstack underflow");
+                let addr = self.callstack.pop();
+                
+                match addr {
+                    Some(to) => {
+                        self.pc = to;
+                    },
+                    None => {
+                        return Err(String::from("Callstack underflow"));
+                    }
+                }
             },
             0x10 => {
                 let addr = self.pop_addr()?;
@@ -199,9 +215,9 @@ impl Runtime {
                 self.framestate.push_rect(x,y,w,h,c);
             },
             0x15 => {
-                let id= self.pop()?;
                 let y = self.pop()?;
                 let x = self.pop()?;
+                let id= self.pop()?;
                 self.framestate.push_graph(x, y, id);
             },
             0x16 => {
@@ -216,6 +232,9 @@ impl Runtime {
                 match mode {
                     0 => {
                         self.framestate.set_img(bin2img(self.memory.get_io())?);
+                    },
+                    1 => {
+                        //bin2wav(self.memory.get_io())?;
                     },
                     2 => {
                         self.clear_io();
@@ -232,6 +251,10 @@ impl Runtime {
                     4 => { self.clear_io(); }
                     _ => {}
                 }
+            },
+            0x19 => {
+                self.pc += 1;
+                return Err(String::from("break"));
             },
             _ => {}
         }
