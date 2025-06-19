@@ -12,7 +12,7 @@ use framestate::FrameState;
 //use music::bin2wav;
 
 #[wasm_bindgen]
-pub fn init_panic_fook(){
+pub fn init_panic_hook(){
     console_error_panic_hook::set_once();
 }
 #[wasm_bindgen]
