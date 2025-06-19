@@ -9,7 +9,6 @@ mod framestate;
 use framestate::FrameState;
 
 mod music;
-use music::bin2wav;
 
 #[wasm_bindgen]
 pub fn init_panic_hook(){
