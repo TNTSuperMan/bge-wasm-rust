@@ -59,5 +59,5 @@ pub fn tokenize(data: &[u8]) -> Vec<Image>{
             _ => {}
         }
     }
-    return images;
+    images
 }

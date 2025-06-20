@@ -8,5 +8,5 @@ mod towav;
 pub fn bin2wav(data: &[u8]) -> Result<Vec<toimg::Bin>, String>{
     let tokens = tokenize(data);
     let bins = tokens2wavs(tokens)?;
-    return Ok(bins);
+    Ok(bins)
 }

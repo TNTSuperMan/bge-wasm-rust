@@ -26,9 +26,7 @@ impl Bin{
             data: data
         }
     }
-    pub fn get(&self) -> Vec<u8>{
-        return self.data.as_slice().to_vec();
-    }
+    pub fn get(&self) -> Vec<u8>{ self.data.as_slice().to_vec() }
 }
 
 pub fn tokens2imgs(tokens: Vec<Image>) -> Result<Vec<Bin>, String>{
@@ -36,7 +34,7 @@ pub fn tokens2imgs(tokens: Vec<Image>) -> Result<Vec<Bin>, String>{
     for i in 0..tokens.len() {
         imgs.push(token2img(tokens[i].clone())?);
     }
-    return Ok(imgs);
+    Ok(imgs)
 }
 
 const TRANSPARENT: Rgba<u8> = Rgba([0,0,0,0]);
@@ -71,5 +69,5 @@ fn token2img(token: Image) -> Result<Bin, String>{
         }
     }
     
-    return Ok(Bin::new(buffer));
+    Ok(Bin::new(buffer))
 }

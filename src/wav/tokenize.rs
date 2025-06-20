@@ -27,10 +27,9 @@ pub enum Note{
 }
 impl Note {
     pub fn new(bin: u8, nbin: u8) -> Note{
-        if (bin & 0b10000000) == 0 {
-            return Note::Mus(MusicNote::new(bin, nbin));
-        }else{
-            return Note::Rest(RestNote::new(bin & 0b111111));
+        match (bin & 0b10000000) {
+            0 => Note::Mus(MusicNote::new(bin, nbin)),
+            _ => Note::Rest(RestNote::new(bin & 0b111111))
         }
     }
 }

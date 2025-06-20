@@ -12,12 +12,12 @@ impl Memory {
     pub fn load(&self, addr: u16) -> u8{
         if addr < 0xa000 {
             if (addr as usize) < self.rom.len() {
-                return self.rom[addr as usize];
+                self.rom[addr as usize]
             } else {
-                return 0;
+                0
             }
         } else {
-            return self.ram[(addr - 0xa000) as usize];
+            self.ram[(addr - 0xa000) as usize]
         }
     }
     pub fn store(&mut self, addr: u16, val: u8){
@@ -25,7 +25,5 @@ impl Memory {
             self.ram[(addr - 0xa000) as usize] = val;
         }
     }
-    pub fn get_io(&self) -> &[u8]{
-        return &self.ram[0x5000..0x6000];
-    }
+    pub fn get_io(&self) -> &[u8]{ &self.ram[0x5000..0x6000] }
 }

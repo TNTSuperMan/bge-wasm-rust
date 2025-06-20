@@ -22,7 +22,7 @@ pub fn token2wav(token: Music) -> Result<Bin, String>{
         writer.finalize().unwrap();
     }
 
-    return Ok(Bin::new(buf.into_inner()));
+    Ok(Bin::new(buf.into_inner()))
 }
 
 pub fn tokens2wavs(tokens: Vec<Music>) -> Result<Vec<Bin>, String>{
@@ -30,5 +30,5 @@ pub fn tokens2wavs(tokens: Vec<Music>) -> Result<Vec<Bin>, String>{
     for token in tokens {
         waves.push(token2wav(token)?);
     }
-    return Ok(waves);
+    Ok(waves)
 }

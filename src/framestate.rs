@@ -84,12 +84,8 @@ impl FrameState {
 
         return clone;
     }
-    pub fn redraw(&mut self){
-        self._do_redraw = true;
-    }
-    pub fn do_redraw(&self) -> bool{
-        return self._do_redraw;
-    }
+    pub fn redraw(&mut self){ self._do_redraw = true }
+    pub fn do_redraw(&self) -> bool{ self._do_redraw }
     pub fn push_rect(&mut self, x: u8, y: u8, w: u8, h: u8, c: u8){
         let a = (c & 0b11000000) >> 6;
         let r = (c & 0b110000) >> 4;
@@ -117,12 +113,8 @@ impl FrameState {
             gid:id
         })
     }
-    pub fn push_sound(&mut self, id: u8){
-        self.sound.push(id);
-    }
-    pub fn stop_sound(&mut self){
-        self.stopsound = true;
-    }
+    pub fn push_sound(&mut self, id: u8){ self.sound.push(id) }
+    pub fn stop_sound(&mut self){ self.stopsound = true }
     pub fn set_img(&mut self, imgs: Vec<Bin>){
         self._do_updimg = true;
         self.imgs = imgs;
@@ -131,8 +123,8 @@ impl FrameState {
         self._do_updwav = true;
         self.wavs = wavs;
     }
-    pub fn get_disps(&self)-> Vec<Display>  { self.disps.as_slice().to_vec() }
-    pub fn get_sound(&self)-> Vec<u8>       { self.sound.as_slice().to_vec() }
-    pub fn get_imgs(&self) -> Vec<Bin>      { self.imgs .as_slice().to_vec() }
-    pub fn get_wavs(&self) -> Vec<Bin>      { self.wavs .as_slice().to_vec() }
+    pub fn get_disps(&self)-> Vec<Display> { self.disps.as_slice().to_vec() }
+    pub fn get_sound(&self)-> Vec<u8>      { self.sound.as_slice().to_vec() }
+    pub fn get_imgs(&self) -> Vec<Bin>     { self.imgs .as_slice().to_vec() }
+    pub fn get_wavs(&self) -> Vec<Bin>     { self.wavs .as_slice().to_vec() }
 }

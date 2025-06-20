@@ -8,5 +8,5 @@ use toimg::tokens2imgs;
 
 pub fn bin2img(data: &[u8]) -> Result<Vec<toimg::Bin>, String>{
     let token = tokenize(data);
-    return Ok(tokens2imgs(token)?);
+    Ok(tokens2imgs(token)?)
 }

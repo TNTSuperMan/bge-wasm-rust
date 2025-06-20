@@ -54,53 +54,45 @@ impl Runtime {
                         return String::from("");
                     }
                 },
-                Err(e) => {
-                    return e;
-                }
+                Err(e) => { return e; }
             }
         }
-        return String::from("");
+        String::from("")
     }
     pub fn emulate_one(&mut self) -> String{
         let result = self.emulate();
         match result {
-            Ok(_) => {
-                return String::from("");
-            },
-            Err(e) => {
-                return e;
-            }
+            Ok(_) => String::from(""),
+            Err(e) => e
         }
     }
     pub fn load(&self, addr: u16) -> u8{ self.memory.load(addr) }
     pub fn store(&mut self, addr: u16, val: u8){ self.memory.store(addr, val) }
     pub fn set_key_state(&mut self, state: u8){ self.keystate = state }
-    pub fn set_save(&mut self, save: Vec<u8>){ self.savedata = save; }
+    pub fn set_save(&mut self, save: Vec<u8>){ self.savedata = save }
     pub fn get_save(&self) -> Vec<u8>{ self.savedata.as_slice().to_vec() }
     pub fn frame_state(&mut self) -> FrameState{
-        if self.framestate.do_redraw() {
-            return self.framestate.pop();
-        } else {
-            return self.framestate.clone();
+        match self.framestate.do_redraw() {
+            true  => self.framestate.pop(),
+            false => self.framestate.clone()
         }
     }
-    pub fn get_pc(&self) -> u16 { return self.pc; }
-    pub fn get_ccc(&self) -> u64 { return self.ccc }
-    pub fn get_stack(&self) -> Vec<u8> { return self.stack.as_slice().to_vec(); }
-    pub fn get_callstack(&self) -> Vec<u16> { return self.callstack.as_slice().to_vec(); }
+    pub fn get_pc(&self) -> u16 { self.pc }
+    pub fn get_ccc(&self) -> u64 { self.ccc }
+    pub fn get_stack(&self) -> Vec<u8> { self.stack.as_slice().to_vec() }
+    pub fn get_callstack(&self) -> Vec<u16> { self.callstack.as_slice().to_vec() }
 
     fn push(&mut self, val: u8){ self.stack.push(val) }
     fn pop(&mut self) -> Result<u8, String>{
-        if self.stack.len() == 0 {
-            return Err(String::from("Stack underflow"));
-        }else{
-            return Ok(self.stack.pop().expect("Stack underflow"));
+        match self.stack.len() {
+            0 => Err(String::from("Stack underflow")),
+            _ => Ok(self.stack.pop().unwrap())
         }
     }
     fn pop_addr(&mut self) -> Result<u16, String>{
         let bottom = self.pop()? as u16;
         let top = self.pop()? as u16;
-        return Ok(bottom | (top << 8));
+        Ok(bottom | (top << 8))
     }
     fn clear_io(&mut self){
         for i in 0xf000..0xffff {
@@ -259,7 +251,7 @@ impl Runtime {
             _ => {}
         }
         self.pc += 1;
-        return Ok(!self.do_subframe || self.load(self.pc) != 0x12);
+        Ok(!self.do_subframe || self.load(self.pc) != 0x12)
     }
 }
 
