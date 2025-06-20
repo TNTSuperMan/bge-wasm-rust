@@ -127,6 +127,10 @@ impl FrameState {
         self._do_updimg = true;
         self.imgs = imgs;
     }
+    pub fn set_wav(&mut self, wavs: Vec<Bin>){
+        self._do_updwav = true;
+        self.wavs = wavs;
+    }
     pub fn get_disps(&self)-> Vec<Display>  { self.disps.as_slice().to_vec() }
     pub fn get_sound(&self)-> Vec<u8>       { self.sound.as_slice().to_vec() }
     pub fn get_imgs(&self) -> Vec<Bin>      { self.imgs .as_slice().to_vec() }
