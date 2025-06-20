@@ -36,8 +36,10 @@ pub struct FrameState {
     disps: Vec<Display>,
     sound:Vec<u8>,
     imgs: Vec<Bin>,
+    wavs: Vec<Bin>,
     pub _do_redraw: bool,
     pub _do_updimg: bool,
+    pub _do_updwav: bool,
     pub stopsound: bool,
     pub _do_save: bool
 }
@@ -48,8 +50,10 @@ impl FrameState {
             disps: Vec::new(),
             imgs: Vec::new(),
             sound:Vec::new(),
+            wavs: Vec::new(),
             _do_redraw: false,
             _do_updimg: false,
+            _do_updwav: false,
             stopsound: false,
             _do_save: false
         }
@@ -57,10 +61,12 @@ impl FrameState {
     pub fn clone(&self) -> FrameState{
         FrameState {
             disps:  self.disps.as_slice().to_vec(),
-            imgs:  self.imgs.as_slice().to_vec(),
             sound: self.sound.as_slice().to_vec(),
+            imgs:  self.imgs.as_slice().to_vec(),
+            wavs: self.wavs.as_slice().to_vec(),
             _do_redraw: self._do_redraw,
             _do_updimg: self._do_updimg,
+            _do_updwav: self._do_updwav,
             stopsound: self.stopsound,
             _do_save: false
         }
@@ -121,7 +127,8 @@ impl FrameState {
         self._do_updimg = true;
         self.imgs = imgs;
     }
-    pub fn get_disps(&self)-> Vec<Display>  { self.disps .as_slice().to_vec() }
+    pub fn get_disps(&self)-> Vec<Display>  { self.disps.as_slice().to_vec() }
     pub fn get_sound(&self)-> Vec<u8>       { self.sound.as_slice().to_vec() }
     pub fn get_imgs(&self) -> Vec<Bin>      { self.imgs .as_slice().to_vec() }
+    pub fn get_wavs(&self) -> Vec<Bin>      { self.wavs .as_slice().to_vec() }
 }
