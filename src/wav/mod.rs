@@ -1,4 +1,4 @@
-use crate::{bgeimage::toimg, music::towav::tokens2wavs};
+use crate::{bgeimage::toimg, wav::towav::tokens2wavs};
 
 mod tokenize;
 use tokenize::tokenize;

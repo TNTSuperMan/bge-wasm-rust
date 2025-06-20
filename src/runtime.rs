@@ -8,7 +8,7 @@ use memory::Memory;
 mod framestate;
 use framestate::FrameState;
 
-mod music;
+mod wav;
 
 #[wasm_bindgen]
 pub fn init_panic_hook(){
